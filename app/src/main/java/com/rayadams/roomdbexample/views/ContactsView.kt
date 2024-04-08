@@ -26,10 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
 import com.rayadams.roomdbexample.R
 import com.rayadams.roomdbexample.views.view_models.ContactsViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,9 +75,7 @@ fun ContactsView(viewModel: ContactsViewModel = hiltViewModel()) {
                     if (askDelete) {
                         AskDeleteDialog(onCancel = { setAskDelete(false) }) {
                             setAskDelete(false)
-                            viewModel.viewModelScope.launch {
-                                viewModel.deleteContact(contact)
-                            }
+                            viewModel.deleteContact(contact)
                         }
                     }
                 }

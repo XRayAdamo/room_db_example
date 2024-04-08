@@ -48,8 +48,10 @@ class ContactsViewModel @Inject constructor(
         customNavigator.navigate(NavigationPath.ADD_CONTACTS_VIEW)
     }
 
-    suspend fun deleteContact(contact: ContactModel) {
-        deleteContactUseCase(contact)
+    fun deleteContact(contact: ContactModel) {
+        viewModelScope.launch {
+            deleteContactUseCase(contact)
+        }
     }
 
 }
