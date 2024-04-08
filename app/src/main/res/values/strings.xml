@@ -6,4 +6,8 @@
     <string name="txt_confirm_delete_rec">Are you sure you want to delete thios record?</string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_delete">Delete</string>
+    <string name="txt_back">Back</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
 </resources>

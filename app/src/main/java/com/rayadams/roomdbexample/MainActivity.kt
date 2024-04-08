@@ -6,11 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -21,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.rayadams.roomdbexample.navigation.CustomNavigator
 import com.rayadams.roomdbexample.navigation.NavigationPath
 import com.rayadams.roomdbexample.ui.theme.RoomDBExampleTheme
+import com.rayadams.roomdbexample.views.AddContactView
 import com.rayadams.roomdbexample.views.ContactsView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -68,6 +67,9 @@ class MainActivity : ComponentActivity() {
         NavHost(navController = navController, startDestination = NavigationPath.CONTACTS_VIEW) {
             composable(NavigationPath.CONTACTS_VIEW) {
                 ContactsView()
+            }
+            composable(NavigationPath.ADD_CONTACTS_VIEW) {
+                AddContactView()
             }
         }
     }
