@@ -22,5 +22,5 @@ interface ContactsDao {
     fun update(contactModel: ContactModel)
 
     @Query("SELECT * FROM contacts where id = :contactId")
-    fun getContactById(contactId:Int): ContactModel
+    fun getContactById(contactId:Int): ContactModel?
 }
