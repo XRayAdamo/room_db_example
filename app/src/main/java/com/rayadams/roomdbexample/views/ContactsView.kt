@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -17,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +45,21 @@ fun ContactsView(viewModel: ContactsViewModel = hiltViewModel()) {
                 }
             }
         )
+        TextField(value = viewModel.searchString,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp, start = 8.dp, end = 8.dp),
+            label = { Text(stringResource(R.string.txt_search)) },
+            trailingIcon = {
+                IconButton(
+                    enabled = viewModel.searchString.isNotBlank(),
+                    onClick = { viewModel.updateSearchString("") }) {
+                    Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.txt_clear))
+                }
+            },
+            onValueChange = {
+                viewModel.updateSearchString(it)
+            })
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = PaddingValues(8.dp),
