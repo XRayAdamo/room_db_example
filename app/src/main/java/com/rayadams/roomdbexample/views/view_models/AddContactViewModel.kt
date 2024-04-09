@@ -9,6 +9,7 @@ import com.rayadams.roomdbexample.models.ContactModel
 import com.rayadams.roomdbexample.navigation.CustomNavigator
 import com.rayadams.roomdbexample.use_cases.DataValidUseCase
 import com.rayadams.roomdbexample.use_cases.DeleteContactUseCase
+import com.rayadams.roomdbexample.use_cases.InsertContactUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddContactViewModel @Inject constructor(
     private val customNavigator: CustomNavigator,
-    private val addContactUseCase: DeleteContactUseCase,
+    private val insertContactUseCase: InsertContactUseCase,
     private val dataValidUseCase: DataValidUseCase
 ) : ViewModel() {
 
@@ -59,7 +60,7 @@ class AddContactViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            addContactUseCase(ContactModel(firstName = firstName, lastName = lastName, phoneNumber = phoneNumber))
+            insertContactUseCase(ContactModel(firstName = firstName, lastName = lastName, phoneNumber = phoneNumber))
 
             goBack()
         }

@@ -3,6 +3,7 @@ package com.rayadams.roomdbexample.views.view_models
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rayadams.roomdbexample.models.ContactModel
 import com.rayadams.roomdbexample.navigation.CustomNavigator
 import com.rayadams.roomdbexample.navigation.NavigationPath
@@ -10,7 +11,9 @@ import com.rayadams.roomdbexample.services.DbService
 import com.rayadams.roomdbexample.use_cases.DeleteContactUseCase
 import com.rayadams.roomdbexample.use_cases.GetAllContactsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,5 +56,4 @@ class ContactsViewModel @Inject constructor(
             deleteContactUseCase(contact)
         }
     }
-
 }
