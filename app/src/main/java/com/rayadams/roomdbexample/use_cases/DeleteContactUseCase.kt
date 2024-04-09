@@ -5,7 +5,7 @@ import com.rayadams.roomdbexample.services.DbService
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class DeleteContactUserCase @Inject constructor(private val dbService: DbService) : BaseUseCase() {
+class DeleteContactUseCase @Inject constructor(private val dbService: DbService) : BaseUseCase() {
     suspend operator fun invoke(contact: ContactModel) {
         withContext(coroutineScope.coroutineContext) {
             dbService.db.contactDao().delete(contact)
