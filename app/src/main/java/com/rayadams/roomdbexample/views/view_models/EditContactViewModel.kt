@@ -48,6 +48,8 @@ class EditContactViewModel @Inject constructor(
             firstName = contactToEdit!!.firstName
             lastName = contactToEdit!!.lastName
             phoneNumber = contactToEdit!!.phoneNumber
+
+            updateCanBeSaved()
         }
     }
 
