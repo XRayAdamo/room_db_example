@@ -1,9 +1,11 @@
 package com.rayadams.roomdbexample.views.view_models
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rayadams.roomdbexample.models.ContactModel
 import com.rayadams.roomdbexample.navigation.CustomNavigator
 import com.rayadams.roomdbexample.navigation.NavigationPath
@@ -11,9 +13,7 @@ import com.rayadams.roomdbexample.services.DbService
 import com.rayadams.roomdbexample.use_cases.DeleteContactUseCase
 import com.rayadams.roomdbexample.use_cases.GetAllContactsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +26,9 @@ class ContactsViewModel @Inject constructor(
 
     val data = mutableStateListOf<ContactModel>()
 
+    var searchString by mutableStateOf("")
+        private set
+
     init {
         viewModelScope.launch {
             dbService.onDataChanged.collect {
@@ -33,14 +36,19 @@ class ContactsViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch {
-            loadData()
-        }
+        loadData()
     }
 
-    private suspend fun loadData() {
-        data.clear()
-        data.addAll(getAllContactsUseCase())
+    fun updateSearchString(value: String) {
+        searchString = value
+        loadData()
+    }
+
+    private fun loadData() {
+        viewModelScope.launch {
+            data.clear()
+            data.addAll(getAllContactsUseCase(searchString))
+        }
     }
 
     fun editContact(contact: ContactModel) {

@@ -6,8 +6,12 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetAllContactsUseCase @Inject constructor(private val dbService: DbService) : BaseUseCase() {
-    suspend operator fun invoke(): List<ContactModel> =
+    suspend operator fun invoke(searchString: String): List<ContactModel> =
         withContext(coroutineScope.coroutineContext) {
-            dbService.db.contactDao().getAllContacts()
+            if (searchString.isBlank()) {
+                dbService.db.contactDao().getAllContacts()
+            } else {
+                dbService.db.contactDao().searchContacts(searchString)
+            }
         }
 }

@@ -9,8 +9,13 @@ import com.rayadams.roomdbexample.models.ContactModel
 
 @Dao
 interface ContactsDao {
-    @Query("SELECT * FROM contacts order by contacts.firstName, contacts.lastName")
+    @Query("SELECT * FROM contacts ORDER BY contacts.firstName, contacts.lastName")
     fun getAllContacts(): List<ContactModel>
+
+    @Query("SELECT * FROM contacts WHERE firstName LIKE :searchString || '%' " +
+            "OR lastName LIKE :searchString || '%' " +
+            "ORDER BY contacts.firstName, contacts.lastName")
+    fun searchContacts(searchString:String): List<ContactModel>
 
     @Insert
     fun insert(contactModel: ContactModel)
@@ -21,6 +26,6 @@ interface ContactsDao {
     @Update
     fun update(contactModel: ContactModel)
 
-    @Query("SELECT * FROM contacts where id = :contactId")
+    @Query("SELECT * FROM contacts WHERE id = :contactId")
     fun getContactById(contactId:Int): ContactModel?
 }
