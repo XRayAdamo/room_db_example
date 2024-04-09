@@ -27,6 +27,8 @@ class AddContactViewModel @Inject constructor(
         private set
     var phoneNumber by mutableStateOf("")
         private set
+    var email by mutableStateOf<String?>(null)
+        private set
 
     var canBeSaved by mutableStateOf(false)
         private set
@@ -54,13 +56,25 @@ class AddContactViewModel @Inject constructor(
         updateCanBeSaved()
     }
 
+    fun updateEmail(it: String) {
+        email = it
+        // no need to call updateCanBeSaved since em,ail is not mandatory field.
+    }
+
     fun save() {
         if (!canBeSaved) {
             return
         }
 
         viewModelScope.launch {
-            insertContactUseCase(ContactModel(firstName = firstName, lastName = lastName, phoneNumber = phoneNumber))
+            insertContactUseCase(
+                ContactModel(
+                    firstName = firstName,
+                    lastName = lastName,
+                    phoneNumber = phoneNumber,
+                    email = email
+                )
+            )
 
             goBack()
         }

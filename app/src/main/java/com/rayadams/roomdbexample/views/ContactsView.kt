@@ -65,7 +65,10 @@ fun ContactsView(viewModel: ContactsViewModel = hiltViewModel()) {
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text("${contact.firstName} ${contact.lastName}")
-                            Text(contact.phoneNumber)
+                            Text(stringResource(R.string.phone_number_formatted, contact.phoneNumber))
+                            contact.email?.let {
+                                Text(stringResource(R.string.email_formatted, contact.email))
+                            }
                         }
                         IconButton(modifier = Modifier.padding(start = 5.dp, end = 5.dp),
                             onClick = { setAskDelete(true) }) {

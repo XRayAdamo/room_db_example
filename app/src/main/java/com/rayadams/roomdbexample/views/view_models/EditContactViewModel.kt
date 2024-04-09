@@ -30,6 +30,8 @@ class EditContactViewModel @Inject constructor(
         private set
     var phoneNumber by mutableStateOf("")
         private set
+    var email by mutableStateOf<String?>(null)
+        private set
 
     var canBeSaved by mutableStateOf(false)
         private set
@@ -48,6 +50,9 @@ class EditContactViewModel @Inject constructor(
             firstName = contactToEdit!!.firstName
             lastName = contactToEdit!!.lastName
             phoneNumber = contactToEdit!!.phoneNumber
+            email = contactToEdit!!.email
+
+            updateCanBeSaved()
         }
     }
 
@@ -73,6 +78,11 @@ class EditContactViewModel @Inject constructor(
         updateCanBeSaved()
     }
 
+    fun updateEmail(it: String) {
+        email = it
+        // no need to call updateCanBeSaved since em,ail is not mandatory field.
+    }
+
     fun save() {
         if (!canBeSaved) {
             return
@@ -83,7 +93,8 @@ class EditContactViewModel @Inject constructor(
                 id = contactToEdit!!.id,
                 firstName = firstName,
                 lastName = lastName,
-                phoneNumber = phoneNumber
+                phoneNumber = phoneNumber,
+                email = email
             )
 
             updateContactUseCase(updatedContact)

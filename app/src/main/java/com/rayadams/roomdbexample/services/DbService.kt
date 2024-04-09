@@ -1,6 +1,7 @@
 package com.rayadams.roomdbexample.services
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -22,7 +23,7 @@ class DbService @Inject constructor(@ApplicationContext applicationContext: Cont
     val onDataChanged = _onDataChanged.asStateFlow()
 
     companion object {
-        const val CURRENT_VERSION = 1
+        const val CURRENT_VERSION = 2
     }
 
     fun notifyDataChanges() {
@@ -36,7 +37,9 @@ class DbService @Inject constructor(@ApplicationContext applicationContext: Cont
 }
 
 @Database(
-    entities = [ContactModel::class], version = DbService.CURRENT_VERSION
+    entities = [ContactModel::class], version = DbService.CURRENT_VERSION, autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ]
 )
 
 abstract class AppDatabase : RoomDatabase() {
