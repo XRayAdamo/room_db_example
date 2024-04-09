@@ -1,5 +1,6 @@
 package com.rayadams.roomdbexample.views
 
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -81,11 +82,21 @@ fun EditContactView(viewModel: EditContactViewModel = hiltViewModel()) {
                     viewModel.updateLastName(it)
                 })
             TextField(value = viewModel.phoneNumber,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp),
                 label = { Text(stringResource(R.string.phone_number)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 onValueChange = {
                     viewModel.updatePhoneNumber(it)
+                })
+            TextField(value = viewModel.email ?: "",
+                modifier = Modifier
+                    .fillMaxWidth(),
+                label = { Text(stringResource(R.string.txt_email)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                onValueChange = {
+                    viewModel.updateEmail(it)
                 })
         }
     }

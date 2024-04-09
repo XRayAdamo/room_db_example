@@ -16,5 +16,8 @@ data class ContactModel(
     val lastName: String,
 
     @ColumnInfo(name = "phoneNumber")
-    val phoneNumber: String
+    val phoneNumber: String,
+
+    @ColumnInfo(name = "email")
+    val email: String?
 )

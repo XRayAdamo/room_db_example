@@ -85,11 +85,20 @@ fun AddContactView(viewModel: AddContactViewModel = hiltViewModel()) {
             TextField(value = viewModel.phoneNumber,
                 modifier = Modifier
                     .focusable()
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(bottom = 10.dp),
                 label = { Text(stringResource(R.string.phone_number)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 onValueChange = {
                     viewModel.updatePhoneNumber(it)
+                })
+            TextField(value = viewModel.email ?: "",
+                modifier = Modifier
+                    .fillMaxWidth(),
+                label = { Text(stringResource(R.string.txt_email)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                onValueChange = {
+                    viewModel.updateEmail(it)
                 })
         }
     }
