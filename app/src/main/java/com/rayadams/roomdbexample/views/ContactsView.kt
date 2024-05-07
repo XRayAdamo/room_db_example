@@ -26,39 +26,60 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rayadams.roomdbexample.R
+import com.rayadams.roomdbexample.models.ContactModel
+import com.rayadams.roomdbexample.ui.theme.RoomDBExampleTheme
 import com.rayadams.roomdbexample.views.view_models.ContactsViewModel
+
+@Composable
+fun ContactsView(viewModel: ContactsViewModel = hiltViewModel()) {
+    ContactsViewContent(
+        goToAddNewContact = { viewModel.goToAddNewContact() },
+        searchString = viewModel.searchString,
+        updateSearchString = { viewModel.updateSearchString(it) },
+        data = viewModel.data,
+        editContact = { viewModel.editContact(it) },
+        deleteContact = { viewModel.deleteContact(it) }
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContactsView(viewModel: ContactsViewModel = hiltViewModel()) {
-
+private fun ContactsViewContent(
+    goToAddNewContact: () -> Unit,
+    searchString: String,
+    updateSearchString: (String) -> Unit,
+    data: List<ContactModel>,
+    editContact: (ContactModel) -> Unit,
+    deleteContact: (ContactModel) -> Unit
+) {
     val (askDelete, setAskDelete) = remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(title = { Text(stringResource(R.string.txt_contacts)) },
             actions = {
-                IconButton(onClick = { viewModel.goToAddNewContact() }) {
+                IconButton(onClick = { goToAddNewContact() }) {
                     Icon(Icons.Default.Add, contentDescription = stringResource(R.string.txt_add_contact))
                 }
             }
         )
-        TextField(value = viewModel.searchString,
+        TextField(value = searchString,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp, start = 8.dp, end = 8.dp),
             label = { Text(stringResource(R.string.txt_search)) },
             trailingIcon = {
                 IconButton(
-                    enabled = viewModel.searchString.isNotBlank(),
-                    onClick = { viewModel.updateSearchString("") }) {
+                    enabled = searchString.isNotBlank(),
+                    onClick = { updateSearchString("") }) {
                     Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.txt_clear))
                 }
             },
             onValueChange = {
-                viewModel.updateSearchString(it)
+                updateSearchString(it)
             })
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -67,14 +88,14 @@ fun ContactsView(viewModel: ContactsViewModel = hiltViewModel()) {
                 .fillMaxSize()
 
         ) {
-            items(items = viewModel.data, key = { it.id!! }) { contact ->
+            items(items = data, key = { it.id!! }) { contact ->
                 Card(
                     elevation = CardDefaults.cardElevation(3.dp),
                     modifier = Modifier
                         .padding(5.dp)
                         .fillMaxWidth(),
                     onClick = {
-                        viewModel.editContact(contact)
+                        editContact(contact)
                     }) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -95,11 +116,43 @@ fun ContactsView(viewModel: ContactsViewModel = hiltViewModel()) {
                     if (askDelete) {
                         AskDeleteDialog(onCancel = { setAskDelete(false) }) {
                             setAskDelete(false)
-                            viewModel.deleteContact(contact)
+                            deleteContact(contact)
                         }
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(name = "en LTR", locale = "en", showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Preview(name = "en LTR 2f", locale = "en", fontScale = 2f, showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun Preview() {
+    val list = listOf(
+        ContactModel(
+            id = 1,
+            firstName = "John",
+            lastName = "Doe",
+            phoneNumber = "1234567890",
+            email = "john.doe@example.com"
+        ),
+        ContactModel(
+            id = 2,
+            firstName = "Jane",
+            lastName = "Doe",
+            phoneNumber = "0987654321",
+            email = "jane.doe@example.com"
+        )
+    )
+    RoomDBExampleTheme {
+        ContactsViewContent(
+            goToAddNewContact = {},
+            searchString = "",
+            updateSearchString = {},
+            data = list,
+            editContact = {},
+            deleteContact = {}
+        )
     }
 }
