@@ -7,7 +7,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.rayadams.roomdbexample.R
+import com.rayadams.roomdbexample.ui.theme.RoomDBExampleTheme
 
 
 @Composable
@@ -38,4 +40,18 @@ fun AskDeleteDialog(onCancel: () -> Unit, onConfirm: () -> Unit) {
             }
         }
     )
+}
+
+@Preview(name = "en LTR", locale = "en", showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Preview(name = "Tablet", locale = "en", showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 800, heightDp = 600)
+@Preview(name = "en LTR 2f", locale = "en", fontScale = 2f, showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun Preview() {
+    RoomDBExampleTheme {
+        AskDeleteDialog(
+            onCancel = {},
+            onConfirm = {}
+        )
+    }
+
 }

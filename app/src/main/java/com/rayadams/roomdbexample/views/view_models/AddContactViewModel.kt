@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.rayadams.roomdbexample.models.ContactModel
 import com.rayadams.roomdbexample.navigation.CustomNavigator
 import com.rayadams.roomdbexample.use_cases.DataValidUseCase
-import com.rayadams.roomdbexample.use_cases.DeleteContactUseCase
 import com.rayadams.roomdbexample.use_cases.InsertContactUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

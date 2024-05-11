@@ -2,8 +2,8 @@
     <string name="app_name">RoomDB Example</string>
     <string name="txt_contacts">Contacts</string>
     <string name="txt_add_contact">Add Contact</string>
-    <string name="txt_delete_rec">Delete recpord</string>
-    <string name="txt_confirm_delete_rec">Are you sure you want to delete thios record?</string>
+    <string name="txt_delete_rec">Delete record</string>
+    <string name="txt_confirm_delete_rec">Are you sure you want to delete this record?</string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_delete">Delete</string>
     <string name="txt_back">Back</string>

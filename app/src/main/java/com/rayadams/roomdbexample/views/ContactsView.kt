@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -68,6 +69,8 @@ private fun ContactsViewContent(
         )
         TextField(value = searchString,
             modifier = Modifier
+                .widthIn(max = 620.dp)
+                .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()
                 .padding(bottom = 10.dp, start = 8.dp, end = 8.dp),
             label = { Text(stringResource(R.string.txt_search)) },
@@ -85,8 +88,9 @@ private fun ContactsViewContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = PaddingValues(8.dp),
             modifier = Modifier
+                .widthIn(max = 620.dp)
+                .align(Alignment.CenterHorizontally)
                 .fillMaxSize()
-
         ) {
             items(items = data, key = { it.id!! }) { contact ->
                 Card(
@@ -103,7 +107,9 @@ private fun ContactsViewContent(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text("${contact.firstName} ${contact.lastName}")
-                            Text(stringResource(R.string.phone_number_formatted, contact.phoneNumber))
+                            Text(
+                                stringResource(R.string.phone_number_formatted, contact.phoneNumber)
+                            )
                             contact.email?.let {
                                 Text(stringResource(R.string.email_formatted, contact.email))
                             }
@@ -126,6 +132,7 @@ private fun ContactsViewContent(
 }
 
 @Preview(name = "en LTR", locale = "en", showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Preview(name = "Tablet", locale = "en", showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 1280, heightDp = 768)
 @Preview(name = "en LTR 2f", locale = "en", fontScale = 2f, showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun Preview() {
@@ -143,6 +150,20 @@ private fun Preview() {
             lastName = "Doe",
             phoneNumber = "0987654321",
             email = "jane.doe@example.com"
+        ),
+        ContactModel(
+            id = 3,
+            firstName = "Michael",
+            lastName = "Doe",
+            phoneNumber = "9876543210",
+            email = "michael.doe@example.com"
+        ),
+        ContactModel(
+            id = 4,
+            firstName = "Emily",
+            lastName = "Doe",
+            phoneNumber = "8765432109",
+            email = "emily.doe@example.com"
         )
     )
     RoomDBExampleTheme {
