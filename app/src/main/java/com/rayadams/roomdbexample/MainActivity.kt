@@ -3,12 +3,17 @@ package com.rayadams.roomdbexample
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -68,15 +73,35 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NavigationView(navController: NavHostController) {
-        NavHost(navController = navController, startDestination = NavigationPath.CONTACTS_VIEW) {
-            composable(NavigationPath.CONTACTS_VIEW) {
+        val isLtr = LocalLayoutDirection.current == LayoutDirection.Ltr
+        val slideTime = 300
+        val slideInHorizontally =
+            slideInHorizontally(initialOffsetX = { if (isLtr) it else -it }, animationSpec = tween(slideTime))
+        val slideOutHorizontally =
+            slideOutHorizontally(targetOffsetX = { if (isLtr) it else -it }, animationSpec = tween(slideTime))
+
+        NavHost(
+            navController = navController, startDestination = NavigationPath.CONTACTS_VIEW,
+            enterTransition = { slideInHorizontally },
+            exitTransition = { slideOutHorizontally },
+        ) {
+            composable(
+                NavigationPath.CONTACTS_VIEW
+            ) {
                 ContactsView()
             }
-            composable(NavigationPath.ADD_CONTACTS_VIEW) {
+            composable(NavigationPath.ADD_CONTACTS_VIEW,
+                enterTransition = { slideInHorizontally },
+                popEnterTransition = { null },
+                popExitTransition = { slideOutHorizontally }) {
                 AddContactView()
             }
-            composable(NavigationPath.EDIT_CONTACT_VIEW_ID,
-                arguments = listOf(navArgument(NavigationParams.CONTACT_ID) { type = NavType.IntType })
+            composable(
+                NavigationPath.EDIT_CONTACT_VIEW_ID,
+                arguments = listOf(navArgument(NavigationParams.CONTACT_ID) { type = NavType.IntType }),
+                enterTransition = { slideInHorizontally },
+                popEnterTransition = { null },
+                popExitTransition = { slideOutHorizontally }
             ) {
                 navController.currentBackStackEntry?.savedStateHandle?.set(
                     NavigationParams.CONTACT_ID,
